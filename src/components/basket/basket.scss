@@ -1,0 +1,138 @@
+.basket {
+  padding: 70px 0;
+  min-height: 100vh;
+  background-color: #f4f6f8;
+  &__header {
+    background-color: #d3dce4;
+    margin-bottom: 30px;
+  }
+  &__header-inner {
+    display: grid;
+    grid-template-columns: 1fr 400px 1fr 90px 1fr;
+    align-items: center;
+
+    padding: 20px 10px;
+  }
+  &__header-text {
+    text-align: center;
+    font-size: 15px;
+  }
+  &__header-text.p1 {
+    grid-column: 2/3;
+  }
+  &__header-text.p2 {
+    grid-column: 3/4;
+  }
+  &__header-text.p3 {
+    grid-column: 4/5;
+  }
+  &__footer {
+    background-color: #d3dce4;
+    padding: 20px 10px;
+  }
+  &__footer-inner {
+    text-align: center;
+    display: grid;
+    grid-template-columns: 1fr 400px 1fr 90px 1fr;
+    align-items: center;
+    font-size: 15px;
+  }
+  &__footer-total {
+    grid-column: 3/4;
+  }
+  &__footer-price {
+    grid-column: 4/5;
+  }
+}
+
+.basket-item {
+  padding: 10px;
+  background-color: #fff;
+  margin-bottom: 20px;
+  &__inner {
+    display: grid;
+    grid-template-columns: 1fr 400px 1fr 90px 1fr;
+    grid-auto-rows: auto;
+    align-items: center;
+  }
+  &__img-cont {
+    justify-self: center;
+    position: relative;
+    width: 50px;
+    height: 60px;
+  }
+  &__img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  &__input {
+    cursor: auto;
+    width: 30px;
+    height: 30px;
+    border-radius: 3px;
+    border: none;
+    background-color: #f4f6f8;
+    padding-left: 5px;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      appearance: none;
+    }
+  }
+  &__title {
+    width: 400px;
+    font-size: 15px;
+    font-weight: 600;
+    color: #34404b;
+  }
+  &__price {
+    color: #34404b;
+    font-size: 16px;
+    width: 90px;
+    font-weight: 600;
+    user-select: none;
+    text-align: center;
+  }
+  &__input-wrapper {
+    margin-right: 30px;
+    justify-self: center;
+    position: relative;
+  }
+  &__input {
+    font-size: 15px;
+    color: #34404b;
+  }
+  &__input-arrows {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 0;
+    right: -14px;
+  }
+
+  &__delete-btn {
+    justify-self: center;
+    cursor: pointer;
+    svg {
+      font-size: 22px;
+      color: #34404b;
+    }
+  }
+  &__input-down,
+  &__input-up {
+    cursor: pointer;
+    color: #34404b;
+    font-size: 16px;
+
+    width: 16px;
+    height: 16px;
+
+    path {
+      pointer-events: none;
+    }
+  }
+}

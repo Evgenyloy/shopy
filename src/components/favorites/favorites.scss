@@ -1,0 +1,10 @@
+.favorites {
+  padding: 70px 0;
+  min-height: 100vh;
+  background-color: #f4f6f8;
+  &__inner {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+}

@@ -1,0 +1,25 @@
+.categories {
+  padding: 40px 0 40px 40px;
+  grid-area: aside;
+  height: 316px;
+  width: 268px;
+  background-color: #ffffff;
+  margin-bottom: 30px;
+
+  &__title {
+    font-family: 'Harmonia Sans Pro Cyr';
+    font-size: 18px;
+    font-weight: 900;
+    color: #ff5912;
+    margin-bottom: 40px;
+  }
+  &__item {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    color: #34404b;
+    &:not(:last-child) {
+      margin-bottom: 25px;
+    }
+  }
+}

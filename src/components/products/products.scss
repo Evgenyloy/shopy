@@ -1,0 +1,13 @@
+.products {
+  height: 100%;
+  background-color: #f4f6f8;
+  padding: 120px 0;
+  &__inner {
+    display: grid;
+    gap: 30px;
+    grid-template-areas:
+      'aside content'
+      'newsLetter newsLetter';
+    grid-template-columns: minmax(200px, 268px) 1fr;
+  }
+}
