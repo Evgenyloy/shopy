@@ -1,7 +1,7 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { PiShoppingCartSimpleBold } from 'react-icons/pi';
-import { Link } from 'react-router-dom';
 import { useAuth } from '../../../hooks/use-auth';
 import {
   addFavoriteItem,
@@ -9,36 +9,23 @@ import {
   removeOrder,
   addOrder,
 } from '../../../store/slices/userSlice';
-import { doc, getFirestore, updateDoc } from 'firebase/firestore';
-import { useEffect } from 'react';
+import { Rating } from 'react-simple-star-rating';
+import { checkAvailability } from '../../../utils/utils';
 
 function GoodsItem({ item }) {
   const dispatch = useDispatch();
-  const { isAuth, email, favorites, orders } = useAuth();
+  const { favorites, orders } = useAuth();
 
   const handleFavoriteClick = (favorites, item) => {
-    if (!isAuth) return;
-    if (
-      favorites.some((elem) => {
-        return elem.id == item.id;
-      })
-    ) {
-      dispatch(removeFavoriteItem(item.id));
-    } else {
-      dispatch(addFavoriteItem(item));
-    }
+    return checkAvailability(favorites, item)
+      ? dispatch(removeFavoriteItem(item.id))
+      : dispatch(addFavoriteItem(item));
   };
 
   const handleBasketClick = (orders, item) => {
-    if (
-      orders.some((elem) => {
-        return elem.id == item.id;
-      })
-    ) {
-      dispatch(removeOrder(item.id));
-    } else {
-      dispatch(addOrder(item));
-    }
+    return checkAvailability(orders, item)
+      ? dispatch(removeOrder(item.id))
+      : dispatch(addOrder(item));
   };
 
   const clazz = favorites.some((i) => {
@@ -59,11 +46,19 @@ function GoodsItem({ item }) {
         <img className="goods__img" src={item.image} alt="" />
       </div>
       <h2 className="goods__title">{item.title}</h2>
-      <span className="goods__prise">{item.price}$</span>
+      <div className="goods__item-inner">
+        <Rating
+          initialValue={item?.rating?.rate}
+          readonly
+          size={12}
+          fillColor={'#ff5912'}
+        />
+        <span className="goods__prise">{item.price}$</span>
+      </div>
+
       <div className="goods__svg-cont">
         <Link
           className="goods__svg-link"
-          /*  to={isAuth ? {} : '/login'} */
           to={{}}
           onClick={() => handleFavoriteClick(favorites, item)}
         >
@@ -71,7 +66,6 @@ function GoodsItem({ item }) {
         </Link>
         <Link
           className="goods__svg-link"
-          /*  to={isAuth ? {} : '/login'} */
           to={{}}
           onClick={() => handleBasketClick(orders, item)}
         >
@@ -79,7 +73,11 @@ function GoodsItem({ item }) {
         </Link>
       </div>
 
-      <a href="#" className="goods__link"></a>
+      <Link
+        to={`/product/${item.id}`}
+        className="goods__link"
+        onClick={() => window.scrollTo(0, 0)}
+      ></Link>
     </div>
   );
 }

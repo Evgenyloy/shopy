@@ -1,9 +1,10 @@
 import logo from '../../resources/img/layers.png';
 import { Link } from 'react-router-dom';
 import './logo.scss';
-const Logo = () => {
+
+const Logo = (props) => {
   return (
-    <div className="logo">
+    <div className="logo" onClick={props.onClick}>
       <div className="logo__inner">
         <span className="logo__text">SH</span>
         <img src={logo} alt="logo" className="logo__img" />

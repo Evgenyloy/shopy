@@ -4,9 +4,15 @@ import radioFilter from '../components/products/aside/priceFilter/PriceFilterRad
 import category from '../components/products/aside/categories/categoriesSlice';
 import rangeFilter from '../components/products/aside/priceFilter/priceFilterRange/PriceFilterRangeSlice';
 import user from '../store/slices/userSlice';
+import formError from '../store/slices/errorSlice';
+import popup from '../store/slices/popupSlice';
+import pagination from '../store/slices/paginationSlice';
 
 const store = configureStore({
   reducer: {
+    pagination,
+    popup,
+    formError,
     user,
     rangeFilter,
     radioFilter,

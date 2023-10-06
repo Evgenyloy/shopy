@@ -7,10 +7,10 @@ import './aside.scss';
 
 function Aside() {
   return (
-    <div className="aside">
+    <aside className="aside">
       <Categories />
       <PriceFilter />
-    </div>
+    </aside>
   );
 }
 

@@ -1,32 +1,69 @@
-import Form from '../form/Form';
 import { useDispatch } from 'react-redux';
-import { setUser } from '../../store/slices/userSlice';
 import { useHistory } from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
-import { useAuth } from '../../hooks/use-auth';
 import { doc, setDoc, getFirestore } from 'firebase/firestore';
+import {
+  setPersistence,
+  browserLocalPersistence,
+  getAuth,
+  createUserWithEmailAndPassword,
+} from 'firebase/auth';
+import { setUser } from '../../store/slices/userSlice';
+import { useAuth } from '../../hooks/use-auth';
+import { setEmailError, setPasswordError } from '../../store/slices/errorSlice';
+import Form from '../form/Form';
 
 function SignUp() {
   const dispatch = useDispatch();
   const { push } = useHistory();
   const { orders, favorites } = useAuth();
 
+  const errorCheck = (error) => {
+    if (error.message == 'Firebase: Error (auth/invalid-email).') {
+      dispatch(setEmailError('invalid-email'));
+      dispatch(setPasswordError(''));
+    }
+    if (error.message == 'Firebase: Error (auth/email-already-in-use).') {
+      dispatch(setEmailError('email-already-in-use'));
+      dispatch(setPasswordError(''));
+    }
+    if (error.message == 'Firebase: Error (auth/missing-password).') {
+      dispatch(setPasswordError('missing-password'));
+      dispatch(setEmailError(''));
+    }
+    if (
+      error.message ==
+      'Firebase: Password should be at least 6 characters (auth/weak-password).'
+    ) {
+      dispatch(setPasswordError('Password should be at least 6 characters'));
+      dispatch(setEmailError(''));
+    }
+    if (!error) {
+      dispatch(setEmailError(''));
+      dispatch(setPasswordError(''));
+    }
+  };
+
   const handleRegister = (email, password) => {
     const auth = getAuth();
-    createUserWithEmailAndPassword(auth, email, password)
-      .then(({ user }) => {
-        console.log(user);
-        dispatch(
-          setUser({
-            email: user.email,
-            id: user.uid,
-            token: user.accessToken,
+
+    setPersistence(auth, browserLocalPersistence)
+      .then(() => {
+        return createUserWithEmailAndPassword(auth, email, password)
+          .then(({ user }) => {
+            dispatch(setUser({ uid: user.uid, email: user.email }));
+            saveInDataBase(user.email, user.uid);
+            dispatch(setEmailError(''));
+            dispatch(setPasswordError(''));
+            push('/');
           })
-        );
-        saveInDataBase(email, user.uid);
-        push('/');
+          .catch((error) => {
+            errorCheck(error);
+          });
       })
-      .catch((data) => alert(data));
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+      });
   };
 
   const db = getFirestore();

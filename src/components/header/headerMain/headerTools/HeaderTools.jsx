@@ -1,81 +1,75 @@
-import { useEffect, useState } from 'react';
-import { BsFillPersonFill } from 'react-icons/bs';
+import { NavLink } from 'react-router-dom/cjs/react-router-dom.min';
+import { useDispatch } from 'react-redux';
+import { getAuth, signOut } from 'firebase/auth';
 import { PiShoppingCartSimpleBold } from 'react-icons/pi';
-import { PiMagnifyingGlass } from 'react-icons/pi';
 import { AiFillHeart } from 'react-icons/ai';
 import { SlLogin, SlLogout } from 'react-icons/sl';
-import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { removeUser } from '../../../../store/slices/userSlice';
-import { useDispatch } from 'react-redux';
-import './headerTools.scss';
 import { useAuth } from '../../../../hooks/use-auth';
+import { changePopUp } from '../../../../store/slices/popupSlice';
 
-function HeaderTools() {
+import './headerTools.scss';
+
+function HeaderTools({ handleClick }) {
   const dispatch = useDispatch();
-  const [inputVisibility, setInputVisibility] = useState(false);
-  const { email, orders, favorites, isAuth } = useAuth();
+  const { user, orders, favorites, isAuth } = useAuth();
 
-  const onItemClick = () => {
-    setInputVisibility(!inputVisibility);
+  const logOut = () => {
+    const auth = getAuth();
+    signOut(auth)
+      .then(() => {
+        dispatch(removeUser());
+        localStorage.removeItem('userData');
+        dispatch(changePopUp(false));
+      })
+      .catch((error) => {
+        alert(error);
+      });
   };
-
-  useEffect(() => {
-    if (inputVisibility) {
-      document.querySelector('.header-tools__input').focus();
-    }
-  }, [inputVisibility]);
 
   return (
     <div className="header-tools">
-      {inputVisibility ? <Input /> : null}
-      <div className="header-tools__item" onClick={onItemClick}>
-        <PiMagnifyingGlass />
-      </div>
-      <Link
+      <NavLink
+        exact
+        onClick={handleClick}
         to={'/basket'}
-        className="header-tools__item header-tools__item-basket"
+        className={(isActive) =>
+          'header-tools__item header-tools__item-basket' +
+          (!isActive ? ' unselected' : ' red')
+        }
       >
         <PiShoppingCartSimpleBold />
         <span className=" header-tools__item-span">
           {orders.length > 0 && orders.length}
         </span>
-      </Link>
-      <Link
+      </NavLink>
+      <NavLink
+        exact
+        onClick={handleClick}
         to="/favorites"
-        className="header-tools__item header-tools__item-favorites"
+        className={(isActive) =>
+          'header-tools__item header-tools__item-favorites' +
+          (!isActive ? ' unselected' : ' red')
+        }
       >
         <AiFillHeart />
         <span className=" header-tools__items">
-          {favorites.length > 0 && favorites.length}
+          {favorites?.length > 0 && favorites?.length}
         </span>
-      </Link>
+      </NavLink>
       {isAuth ? (
-        <div
-          className="header-tools__item"
-          onClick={() => dispatch(removeUser())}
-        >
+        <div className="header-tools__item" onClick={logOut}>
           <SlLogout />
         </div>
       ) : (
-        <Link to="/login" className="header-tools__item">
+        <NavLink to="/login" className="header-tools__item">
           <SlLogin />
-        </Link>
+        </NavLink>
       )}
 
-      <p className="header-tools__user">
-        {email ? email : <LinkTo />}
-        {/*  {email && <Button dispatch={dispatch} />} */}
-      </p>
+      <p className="header-tools__user">{user ? user?.email : null}</p>
     </div>
   );
 }
-
-const LinkTo = () => {
-  return <Link to="/login"></Link>;
-};
-
-const Input = () => {
-  return <input className="header-tools__input" type="text" />;
-};
 
 export default HeaderTools;

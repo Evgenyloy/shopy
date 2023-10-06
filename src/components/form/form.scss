@@ -1,5 +1,6 @@
 .form {
   margin-bottom: 20px;
+
   &__input {
     padding: 5px;
     display: block;
@@ -13,7 +14,30 @@
     &::placeholder {
       color: rgb(189, 186, 186);
     }
+    &-inner2 {
+      position: relative;
+    }
+    &-inner1 {
+      position: relative;
+    }
+    &-error2 {
+      font-size: 12px;
+      position: absolute;
+      bottom: -14px;
+      left: 1px;
+
+      color: red;
+    }
+    &-error1 {
+      font-size: 12px;
+      position: absolute;
+      bottom: -14px;
+      left: 1px;
+
+      color: red;
+    }
   }
+
   &__button {
     padding: 5px 10px;
     color: #fff;

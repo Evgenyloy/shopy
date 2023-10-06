@@ -1,7 +1,7 @@
 import React from 'react';
 import Logo from '../logo/Logo';
 import HeaderNav from '../header/headerMain/headerNav/HeaderNav';
-import paymantImg from '../../resources/img/payment_images.png';
+import paymentImg from '../../resources/img/payment_images.png';
 import './footer.scss';
 
 function Footer() {
@@ -13,7 +13,7 @@ function Footer() {
           <HeaderNav />
           <div className="footer__payment">
             <h2 className="footer__payment-title">Payment Methods</h2>
-            <img src={paymantImg} alt="" />
+            <img src={paymentImg} alt="" />
           </div>
         </div>
       </div>

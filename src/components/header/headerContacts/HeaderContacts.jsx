@@ -1,10 +1,7 @@
 import { IoMdMailOpen } from 'react-icons/io';
-import { BsFillTelephoneFill } from 'react-icons/bs';
 import { RiFacebookFill } from 'react-icons/ri';
-import { BsTwitter } from 'react-icons/bs';
-import { BsInstagram } from 'react-icons/bs';
+import { BsTwitter, BsInstagram, BsFillTelephoneFill } from 'react-icons/bs';
 import { TfiGoogle } from 'react-icons/tfi';
-
 import './headerContacts.scss';
 
 const HeaderContacts = () => {

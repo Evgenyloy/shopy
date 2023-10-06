@@ -1,12 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+const userData = JSON.parse(
+  localStorage.getItem(
+    'firebase:authUser:AIzaSyAWEVRT308MOF8Lo9_aRbLEdHbgLHcf65E:[DEFAULT]'
+  )
+);
+
+const localUserData = JSON.parse(localStorage.getItem('userData'));
+const localGuestData = JSON.parse(localStorage.getItem('guestData'));
+
 const initialState = {
-  guest: true,
-  email: null,
-  token: null,
-  id: null,
-  favorites: [],
-  orders: [],
+  user: userData ? userData : null,
+  favorites: userData
+    ? localUserData.favorites
+    : localGuestData
+    ? localGuestData.favorites
+    : [],
+  orders: userData
+    ? localUserData.orders
+    : localGuestData
+    ? localGuestData.orders
+    : [],
 };
 
 const userSlice = createSlice({
@@ -14,18 +28,16 @@ const userSlice = createSlice({
   initialState,
   reducers: {
     setUser(state, action) {
-      state.email = action.payload.email;
-      state.token = action.payload.token;
-      state.id = action.payload.id;
-      state.guest = false;
+      state.user = action.payload;
     },
     removeUser(state) {
-      state.email = null;
-      state.token = null;
-      state.id = null;
-      state.orders = [];
-      state.favorites = [];
-      state.guest = true;
+      state.user = null;
+      state.orders = localStorage.getItem('guestData')
+        ? JSON.parse(localStorage.getItem('guestData')).orders
+        : [];
+      state.favorites = localStorage.getItem('guestData')
+        ? JSON.parse(localStorage.getItem('guestData')).favorites
+        : [];
     },
     setFavoriteItems: (state, action) => {
       state.favorites = action.payload;
@@ -52,10 +64,14 @@ const userSlice = createSlice({
         price: action.payload.price,
         image: action.payload.image,
         title: action.payload.title,
+        description: action.payload.description,
       });
     },
     setOrders: (state, action) => {
       state.orders = action.payload;
+    },
+    deleteOrders: (state) => {
+      state.orders = [];
     },
     removeOrder: (state, action) => {
       state.orders = state.orders.filter((item) => item.id !== action.payload);
@@ -73,5 +89,6 @@ export const {
   removeOrder,
   addOrder,
   setOrders,
+  deleteOrders,
 } = userSlice.actions;
 export default userSlice.reducer;

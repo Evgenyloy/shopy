@@ -1,26 +1,21 @@
-import React, { useState } from 'react';
-
+import { useDispatch, useSelector } from 'react-redux';
 import ReactSlider from 'react-slider';
 import {
   minPriceFilterChanged,
   maxPriceFilterChanged,
 } from './PriceFilterRangeSlice';
-import { useDispatch } from 'react-redux';
 
 import './priceFilterRange.scss';
 
 function PriceFilterRange() {
-  const [input1, setInput1] = useState(0);
-  const [input2, setInput2] = useState(1000);
+  const { minPrice, maxPrice } = useSelector((state) => state.rangeFilter);
   const dispatch = useDispatch();
 
   const onFilterChange = (v, i) => {
     if (i === 0) {
-      setInput1(v[0]);
       dispatch(minPriceFilterChanged(v[0]));
     }
     if (i === 1) {
-      setInput2(v[1]);
       dispatch(maxPriceFilterChanged(v[1]));
     }
   };
@@ -30,14 +25,14 @@ function PriceFilterRange() {
       <h2 className="price-filter__title">Price Filter</h2>
       <div className="price-filter__wrapper">
         <div className="price-filter__span-wrapper">
-          <span className="price-filter__span">{input1 + '$'}</span>
-          <span className="price-filter__span">{input2 + '$'}</span>
+          <span className="price-filter__span">{minPrice + '$'}</span>
+          <span className="price-filter__span">{maxPrice + '$'}</span>
         </div>
         <ReactSlider
           className="horizontal-slider"
           thumbClassName="example-thumb"
           trackClassName="example-track"
-          value={[input1, input2]}
+          value={[minPrice, maxPrice]}
           ariaLabel={['Lower thumb', 'Upper thumb']}
           ariaValuetext={(state) => `Thumb value ${state.valueNow}`}
           renderThumb={(props, state) => <div {...props}>{}</div>}

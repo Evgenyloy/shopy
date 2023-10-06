@@ -1,73 +1,87 @@
-import Form from '../form/Form';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import {
+  getAuth,
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserLocalPersistence,
+} from 'firebase/auth';
 import {
   setUser,
   setOrders,
   setFavoriteItems,
 } from '../../store/slices/userSlice';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { useHistory } from 'react-router-dom';
-import { doc, getDoc, getFirestore } from 'firebase/firestore';
-
-import { setPersistence, browserSessionPersistence } from 'firebase/auth';
+import { setEmailError, setPasswordError } from '../../store/slices/errorSlice';
+import Form from '../form/Form';
 
 function Login() {
   const dispatch = useDispatch();
-  const { push } = useHistory();
+  const { goBack } = useHistory();
+
+  const errorCheck = (error) => {
+    if (error.message === 'Firebase: Error (auth/invalid-email).') {
+      dispatch(setEmailError('wrong-email'));
+      dispatch(setPasswordError(''));
+    }
+    if (error.message === 'Firebase: Error (auth/user-not-found).') {
+      dispatch(setEmailError('user-not-found'));
+      dispatch(setPasswordError(''));
+    }
+    if (error.message === 'Firebase: Error (auth/wrong-password).') {
+      dispatch(setPasswordError('wrong-password'));
+      dispatch(setEmailError(''));
+    }
+    if (error.message === 'Firebase: Error (auth/missing-password).') {
+      dispatch(setPasswordError('missing-password'));
+      dispatch(setEmailError(''));
+    }
+    if (error.message.includes('(auth/too-many-requests)')) {
+      dispatch(setPasswordError('account disabled due to many failed login'));
+      dispatch(setEmailError(''));
+    }
+  };
 
   const handleLogin = (email, password) => {
     const auth = getAuth();
-    signInWithEmailAndPassword(auth, email, password)
-      .then(({ user }) => {
-        dispatch(
-          setUser({
-            email: user.email,
-            id: user.uid,
-            token: user.accessToken,
-          })
-        );
 
-        push('/');
-      })
-      .catch(() => alert('Invalid user!'));
-
-    const data = getOrders(email);
-    data.then((data) => {
-      dispatch(setOrders(data.orders));
-      dispatch(setFavoriteItems(data.favorites));
-    });
-    //------------------
-
-    setPersistence(auth, browserSessionPersistence)
+    setPersistence(auth, browserLocalPersistence)
       .then(() => {
-        // Existing and future Auth states are now persisted in the current
-        // session only. Closing the window would clear any existing state even
-        // if a user forgets to sign out.
-        // ...
-        // New sign-in will be persisted with session persistence.
-        return signInWithEmailAndPassword(auth, email, password);
+        return signInWithEmailAndPassword(auth, email, password)
+          .then(({ user }) => {
+            dispatch(setUser({ uid: user.uid, email: user.email }));
+
+            const data = getOrders(email);
+            data.then((data) => {
+              dispatch(setOrders(data.orders));
+              dispatch(setFavoriteItems(data.favorites));
+              dispatch(setEmailError(''));
+              dispatch(setPasswordError(''));
+            });
+            goBack();
+          })
+          .catch((error) => {
+            errorCheck(error);
+          });
       })
       .catch((error) => {
-        // Handle Errors here.
         const errorCode = error.code;
         const errorMessage = error.message;
       });
   };
-  //-------------------------------------------------------------
 
   const db = getFirestore();
 
   const getOrders = async (email) => {
     const docRef = doc(db, 'users', `${email}`);
-
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
-      console.log('Document data:', docSnap.data());
+      //  console.log('Document data:', docSnap.data());
       return docSnap.data();
     } else {
       // docSnap.data() will be undefined in this case
-      console.log('No such document!');
+      alert('No such document!');
     }
   };
 

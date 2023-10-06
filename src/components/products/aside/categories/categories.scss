@@ -1,17 +1,17 @@
 .categories {
-  padding: 40px 0 40px 40px;
+  padding: 40px;
   grid-area: aside;
   height: 316px;
-  width: 268px;
+  max-width: 268px;
   background-color: #ffffff;
   margin-bottom: 30px;
 
   &__title {
     font-family: 'Harmonia Sans Pro Cyr';
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 900;
-    color: #ff5912;
-    margin-bottom: 40px;
+    color: #34404b;
+    margin-bottom: 35px;
   }
   &__item {
     cursor: pointer;
@@ -21,5 +21,38 @@
     &:not(:last-child) {
       margin-bottom: 25px;
     }
+  }
+  &__item.active {
+    color: #ff5912;
+  }
+}
+
+@media (max-width: 800px) {
+  .categories {
+    padding: 20px;
+  }
+}
+@media (max-width: 650px) {
+  .categories {
+    padding: 10px;
+    background-color: transparent;
+    height: auto;
+    margin-bottom: 0;
+    &__title {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+    &__item {
+      &:not(:last-child) {
+        margin-bottom: 5px;
+      }
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+}
+@media (max-width: 300px) {
+  .categories {
+    padding: 5px;
   }
 }

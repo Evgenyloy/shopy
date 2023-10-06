@@ -30,11 +30,12 @@
     transition: all 0.1s linear;
     &:hover {
       fill: #ff5912;
-      transform: scale(1.1, 1.1);
+      transform: scale(1.2, 1.2);
     }
   }
   &__user {
-    font-size: 12px;
+    font-size: 13px;
+    color: #34404b;
   }
   &__logout {
     display: block;
@@ -63,4 +64,24 @@
       color: #ff5912;
     }
   }
+}
+
+@media (max-width: 350px) {
+  .header-tools {
+    gap: 10px;
+    &__user {
+      font-size: 10px;
+    }
+    &__item {
+      height: 15px;
+      width: 15px;
+    }
+  }
+}
+
+.red {
+  color: #ff5912;
+}
+.red svg {
+  fill: #ff5912;
 }

@@ -5,16 +5,21 @@
   &__inner {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 0 50px;
   }
   &__title {
+    font-family: 'Harmonia Sans Pro Cyr';
+    display: inline;
     font-size: 18px;
     font-weight: 700;
     color: #ff5912;
     text-transform: uppercase;
   }
   &__text {
-    font-size: 14px;
+    font-family: 'Harmonia Sans Pro Cyr';
+    display: inline;
+    font-size: 15px;
     font-weight: 400;
     font-style: italic;
     color: #34404b;
@@ -25,11 +30,17 @@
     height: 21px;
     fill: #ff5912;
   }
-  &__input {
-    margin-left: 5px;
-    border: none;
+  &__svg-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-    opacity: 0.5;
+  &__input {
+    font-family: 'Harmonia Sans Pro Cyr';
+    border: none;
+    font-size: 14px;
+    opacity: 0.8;
   }
 
   &__button {
@@ -51,6 +62,75 @@
   &__form {
     display: flex;
     align-items: center;
-    margin-left: 250px;
+  }
+}
+
+@media (max-width: 900px) {
+  .news-letter__col1 {
+    display: flex;
+    flex-direction: column;
+  }
+  .news-letter__text {
+    margin-left: 0;
+  }
+}
+@media (max-width: 750px) {
+  .news-letter__col1 {
+    flex-direction: row;
+    margin-bottom: 10px;
+  }
+  .news-letter__inner {
+    flex-direction: column;
+    padding: 0;
+  }
+  .news-letter__text {
+    margin-left: 10px;
+  }
+}
+@media (max-width: 445px) {
+  .news-letter__col1 {
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+  .news-letter__inner {
+    flex-direction: column;
+    padding: 0;
+  }
+  .news-letter__text {
+    margin-left: 0;
+  }
+  .news-letter__title {
+    text-align: center;
+    margin-bottom: 5px;
+  }
+}
+@media (max-width: 370px) {
+  .news-letter__col1 {
+    flex-direction: column;
+    margin-bottom: 20px;
+  }
+  .news-letter__inner {
+    flex-direction: column;
+    padding: 0;
+  }
+  .news-letter__text {
+    margin-left: 0;
+    text-align: center;
+  }
+  .news-letter__title {
+    text-align: center;
+    margin-bottom: 5px;
+  }
+  .news-letter__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .news-letter__svg-wrapper {
+    margin-bottom: 10px;
+  }
+  .news-letter__input {
+    width: 128px;
   }
 }

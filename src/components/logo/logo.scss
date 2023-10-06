@@ -30,3 +30,15 @@
     height: 100%;
   }
 }
+
+@media (max-width: 350px) {
+  .logo {
+    width: 90px;
+    &__text {
+      font-size: 20px;
+    }
+    &__title {
+      font-size: 8px;
+    }
+  }
+}
