@@ -47,10 +47,6 @@ function Goods({ products, isError, isLoading, isSuccess }) {
     }
   };
 
-  //setCurrentPage в paginate устанавливает текущую страницу
-  //продуктов на странице 9
-  //индекс последнего продукта = текущая страница * продуктов на странице
-  //индекс первого продукта = индекс последнего продукта - количество продуктов на странице
   const currentPage = useSelector((state) => state.pagination.currentPage);
 
   const [productsPerPage] = useState(9);

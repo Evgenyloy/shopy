@@ -6,9 +6,6 @@ function Pagination({ productsPerPage, totalProducts, items }) {
   const pageNumber = [];
   const currentPage = useSelector((state) => state.pagination.currentPage);
   const dispatch = useDispatch();
-  //количество страниц pageNumber добавляем туда через for
-  //totalProducts - все количество с сервера
-  //paginate - устанавливает текущею страницу
 
   for (let i = 1; i <= Math.ceil(totalProducts / productsPerPage); i++) {
     pageNumber.push(i);

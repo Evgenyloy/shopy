@@ -55,9 +55,10 @@ const Product = () => {
   };
 
   const handleOrderClick = (orders, product) => {
-    return checkAvailability(orders, product)
-      ? null
-      : dispatch(addOrder(product));
+    return (
+      checkAvailability(orders, product) ? null : dispatch(addOrder(product)),
+      dispatch(changeQuantity([product.id, value]))
+    );
   };
 
   const handleBasketClick = (orders, product) => {

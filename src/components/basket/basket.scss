@@ -118,6 +118,8 @@
     &::-webkit-outer-spin-button,
     &::-webkit-inner-spin-button {
       appearance: none;
+      margin: 0;
+      -moz-appearance: textfield;
     }
   }
   &__title {
@@ -174,6 +176,7 @@
     }
   }
 }
+
 @media (max-width: 860px) {
   .basket__footer-button {
     grid-column: 1/3;

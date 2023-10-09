@@ -20,22 +20,22 @@ const HeaderContacts = () => {
           <div className="header-contacts__inner-col2">
             <ul className="social">
               <li className="social__item">
-                <a href="" className="social__link">
+                <a href="https://ru-ru.facebook.com" className="social__link">
                   <RiFacebookFill />
                 </a>
               </li>
               <li className="social__item">
-                <a href="" className="social__link">
+                <a href="https://twitter.com/?lang=ru" className="social__link">
                   <BsTwitter />
                 </a>
               </li>
               <li className="social__item">
-                <a href="" className="social__link">
+                <a href="https://www.google.ru" className="social__link">
                   <TfiGoogle />
                 </a>
               </li>
               <li className="social__item">
-                <a href="" className="social__link">
+                <a href="https://www.instagram.com" className="social__link">
                   <BsInstagram />
                 </a>
               </li>

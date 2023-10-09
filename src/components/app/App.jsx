@@ -21,12 +21,6 @@ import '../../style/style.scss';
 import './app.scss';
 
 function App() {
-  /* const a = fetch('https://6yps3h-8080.csb.app/posts')
-    .then((response) => response.json())
-    .then((json) => console.log(json));
- */
-  //--------------------------------------------------------
-
   const { orders, favorites, user, isAuth } = useAuth();
 
   const {

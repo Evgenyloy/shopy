@@ -8,6 +8,7 @@ const CheckoutPopup = ({ popup, closePopup }) => {
   const handleClick = () => {
     closePopup();
     push('/');
+    window.scrollTo(0, 0);
   };
 
   const duration = 100;
